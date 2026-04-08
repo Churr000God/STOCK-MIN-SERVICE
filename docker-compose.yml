@@ -1,0 +1,20 @@
+services:
+  stock-min-service:
+    build: .
+    container_name: stock-min-service
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: stock-min-tunnel
+    network_mode: "service:stock-min-service"
+    command: ["tunnel", "--no-autoupdate", "--protocol", "http2", "--url", "http://127.0.0.1:8000"]
+    depends_on:
+      - stock-min-service
+    restart: unless-stopped
+    profiles: ["tunnel"]

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+data/input/*.csv
+data/output/stock_minimo_resultado_[0-9]*.csv
+
+.DS_Store
+Thumbs.db
