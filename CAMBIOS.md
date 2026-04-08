@@ -94,3 +94,12 @@ Archivos:
 - Linux: [scripts/init_linux.sh](file:///c:/Users/dhgui/Documents/SCRIPTS/stock-min-service/scripts/init_linux.sh), [scripts/dev_linux.sh](file:///c:/Users/dhgui/Documents/SCRIPTS/stock-min-service/scripts/dev_linux.sh), [scripts/update_linux.sh](file:///c:/Users/dhgui/Documents/SCRIPTS/stock-min-service/scripts/update_linux.sh)
 - Windows: [scripts/init_windows.ps1](file:///c:/Users/dhgui/Documents/SCRIPTS/stock-min-service/scripts/init_windows.ps1), [scripts/dev_windows.ps1](file:///c:/Users/dhgui/Documents/SCRIPTS/stock-min-service/scripts/dev_windows.ps1), [scripts/update_windows.ps1](file:///c:/Users/dhgui/Documents/SCRIPTS/stock-min-service/scripts/update_windows.ps1)
 
+## CI/CD
+
+- Se agregó `buildspec.yml` para AWS CodeBuild:
+  - Construye imagen Docker desde `Dockerfile`.
+  - Opcionalmente hace login/push a ECR si existen variables:
+    - `AWS_ACCOUNT_ID`, `AWS_DEFAULT_REGION` (o `AWS_REGION`), `IMAGE_REPO_NAME`, `IMAGE_TAG`.
+  - Genera `imagedefinitions.json` para despliegue en ECS.
+  - Archivo: [buildspec.yml](file:///c:/Users/dhgui/Documents/SCRIPTS/stock-min-service/buildspec.yml)
+

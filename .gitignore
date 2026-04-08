@@ -6,6 +6,10 @@ __pycache__/
 
 data/input/*.csv
 data/output/stock_minimo_resultado_[0-9]*.csv
+*.pem
+*.zip
+*.tar
+*.tar.gz
 
 .DS_Store
 Thumbs.db
