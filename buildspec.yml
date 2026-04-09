@@ -5,15 +5,16 @@ phases:
     runtime-versions:
       docker: 24
     commands:
-      - echo "Build iniciado: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-      - ls -la
+      - 'echo "Build iniciado: $(date -u +%Y-%m-%dT%H:%M:%SZ)"'
+      - 'ls -la'
+
   pre_build:
     commands:
-      - set -euo pipefail
-      - IMAGE_TAG="${IMAGE_TAG:-${CODEBUILD_RESOLVED_SOURCE_VERSION:-latest}}"
-      - IMAGE_REPO_NAME="${IMAGE_REPO_NAME:-stock-min-service}"
-      - AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-${AWS_REGION:-}}"
-      - if [ -n "${AWS_DEFAULT_REGION}" ] && [ -n "${AWS_ACCOUNT_ID:-}" ]; then echo "Usando region ${AWS_DEFAULT_REGION}"; fi
+      - 'set -euo pipefail'
+      - 'IMAGE_TAG="${IMAGE_TAG:-${CODEBUILD_RESOLVED_SOURCE_VERSION:-latest}}"'
+      - 'IMAGE_REPO_NAME="${IMAGE_REPO_NAME:-stock-min-service}"'
+      - 'AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-${AWS_REGION:-}}"'
+      - 'if [ -n "${AWS_DEFAULT_REGION}" ] && [ -n "${AWS_ACCOUNT_ID:-}" ]; then echo "Usando region ${AWS_DEFAULT_REGION}"; fi'
       - |
         if [ -n "${AWS_DEFAULT_REGION}" ] && [ -n "${AWS_ACCOUNT_ID:-}" ]; then
           ECR_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
@@ -22,18 +23,20 @@ phases:
         else
           REPO_URI=""
         fi
+
   build:
     commands:
-      - set -euo pipefail
-      - docker version
-      - docker build -t "${IMAGE_REPO_NAME}:${IMAGE_TAG}" .
+      - 'set -euo pipefail'
+      - 'docker version'
+      - 'docker build -t "${IMAGE_REPO_NAME}:${IMAGE_TAG}" .'
       - |
         if [ -n "${REPO_URI}" ]; then
           docker tag "${IMAGE_REPO_NAME}:${IMAGE_TAG}" "${REPO_URI}:${IMAGE_TAG}"
         fi
+
   post_build:
     commands:
-      - set -euo pipefail
+      - 'set -euo pipefail'
       - |
         if [ -n "${REPO_URI}" ]; then
           docker push "${REPO_URI}:${IMAGE_TAG}"
@@ -41,7 +44,7 @@ phases:
         else
           printf '[{"name":"stock-min-service","imageUri":"%s"}]\n' "${IMAGE_REPO_NAME}:${IMAGE_TAG}" > imagedefinitions.json
         fi
-      - echo "Build finalizado: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+      - 'echo "Build finalizado: $(date -u +%Y-%m-%dT%H:%M:%SZ)"'
 
 artifacts:
   files:
