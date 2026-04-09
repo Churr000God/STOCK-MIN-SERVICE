@@ -103,3 +103,8 @@ Archivos:
   - Genera `imagedefinitions.json` para despliegue en ECS.
   - Archivo: [buildspec.yml](file:///c:/Users/dhgui/Documents/SCRIPTS/stock-min-service/buildspec.yml)
 
+## Docker
+
+- Se cambió la imagen base del `Dockerfile` a ECR Public (`public.ecr.aws/docker/library/python:3.11-slim`) para evitar límites de pull anónimo de Docker Hub en builds de CI.
+- En CodeBuild, `buildspec.yml` permite `docker login` a Docker Hub si se proveen `DOCKERHUB_USERNAME` y `DOCKERHUB_TOKEN`.
+
